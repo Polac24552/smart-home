@@ -1,0 +1,25 @@
+.home_page_div{
+  min-width: 100vh;
+  min-height: 85vh;
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: rgba(222,222,222, 0.3);
+}
+.home_page_p{
+  margin-top: 2%;
+  font-size: 50px;
+  margin-bottom: 2%;
+}
+table {
+  margin-top: 1%;
+  width: 100%;
+}
+td,th{
+  padding-left: 30px;
+}
+.mat-typography{
+  width: 100%;
+}
