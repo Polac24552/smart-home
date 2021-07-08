@@ -1,5 +1,4 @@
 import {Component, OnDestroy} from '@angular/core';
-import {PeopleService} from "./people.service";
 
 @Component({
   selector: 'app-root',
@@ -10,17 +9,7 @@ import {PeopleService} from "./people.service";
 export class AppComponent implements OnDestroy{
   title = 'my-app';
 
-  public people$: any;
-
-  constructor(private peopleService: PeopleService) {}
-
-  fetchPeople(){
-    this.people$ = this.peopleService.fetchPeople();
-  }
-  //załadowanie danych przy załadowaniu strony
-  ngOnInit(): void {
-    this.fetchPeople();
-  }
+  constructor() {}
 
   ngOnDestroy(){
   }

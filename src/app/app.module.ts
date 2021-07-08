@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import {DialogContentExampleDialog, HomePageComponent} from './home-page/home-page.component';
+import {HomePageComponent} from './home-page/home-page.component';
 import { BoxesComponent } from './boxes/boxes.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HttpClientModule } from "@angular/common/http";
@@ -19,6 +19,7 @@ import {NgMatSearchBarModule} from "ng-mat-search-bar";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatIconModule} from "@angular/material/icon";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {DialogComponent} from './dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     HomePageComponent,
     BoxesComponent,
     PageNotFoundComponent,
-    DialogContentExampleDialog
+    DialogComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +49,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
   providers: [
     PeopleService,
     MatTableDataSource,
-    DialogContentExampleDialog,
+    DialogComponent,
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
   ],
   bootstrap: [AppComponent]

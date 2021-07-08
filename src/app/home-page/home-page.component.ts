@@ -1,8 +1,8 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {PeopleService} from "../people.service";
-import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
+import {MatDialog} from "@angular/material/dialog";
 import {MatTable} from "@angular/material/table";
-import {FormControl} from "@angular/forms";
+import {DialogComponent} from "../dialog/dialog.component";
 
 @Component({
   selector: 'app-home-page',
@@ -12,27 +12,26 @@ import {FormControl} from "@angular/forms";
 
 export class HomePageComponent implements OnInit {
 
-  peopleToPrint$:any;
+  dataFromAPI:any;
   dataSource:any;
   displayedColumns: string[] = ['id', 'name', 'email', 'username', 'info', 'del'];
   @ViewChild(MatTable) table: MatTable<any>;
-  //search = new FormControl('');
   nameToSearch: string;
+  foundPeople: Array<any> = [];
 
-  //tworzymy połączenie z peopleservice aby mieć dostęp do jej funkcji zwracającej array
   constructor(public peopleService: PeopleService, public dialog: MatDialog) {}
 
   openDialog(elementId: number) {
-    let peopleToShow = this.peopleToPrint$.find((element: any) => {
+    const person = this.dataFromAPI.find((element: any) => {
       return element.id === elementId;
     });
 
     let dialogRef:any;
 
-    if(this.dialog.openDialogs.length==0) {
-       dialogRef = this.dialog.open(DialogContentExampleDialog, {
+    if(this.dialog.openDialogs.length===0) {
+       dialogRef = this.dialog.open(DialogComponent, {
         data: {
-          people: peopleToShow
+          people: person
         }
       });
 
@@ -40,67 +39,42 @@ export class HomePageComponent implements OnInit {
         console.log(`Dialog result: ${result}`);
       });
     }
+
   }
 
   removeData(elementId: number) {
-    let isFindIndex = this.peopleToPrint$.findIndex((element: any) => {
+    const isFindIndex = this.dataFromAPI.findIndex((element: any) => {
       return element.id === elementId;
     });
 
-    this.peopleToPrint$.splice(isFindIndex, 1);
-    this.dataSource = this.peopleToPrint$;
+    this.dataFromAPI.splice(isFindIndex, 1);
+    this.dataSource = this.dataFromAPI;
     this.table.renderRows();
   }
 
-  foundPpl: Array<any> = [];
-
   searchForName(){
-    this.foundPpl = [];
-    if(this.nameToSearch == null){this.restartTable();}
+    this.foundPeople = [];
+    if(!this.nameToSearch){this.restartTable();}
 
-    this.peopleToPrint$.find((element: any) => {
-      if(element.name.toString().toLowerCase().includes(this.nameToSearch.toLowerCase())){
-        this.foundPpl.push(element);
+    this.dataFromAPI.find((element: any) => {
+      if(element.name.toString().toLowerCase().includes(this.nameToSearch.toLowerCase().trim())){
+        this.foundPeople.push(element);
       }
     });
 
-    this.dataSource = this.foundPpl;
+    this.dataSource = this.foundPeople;
     this.table.renderRows();
   }
 
   restartTable(){
-    this.dataSource = this.peopleToPrint$;
+    this.dataSource = this.dataFromAPI;
     this.table.renderRows();
   }
 
   ngOnInit(): void {
-    //przy załadowaniu wywołujemy funkcje
-      this.peopleService.fetchPeople().subscribe(res => {
-      this.peopleToPrint$ = res;
+    this.peopleService.fetchPeople().subscribe(res => {
+      this.dataFromAPI = res;
       this.dataSource = res;
     })
-  }
-
-  transform(value: any, ...args: any[]): any {
-  }
-}
-
-//------------------------------------------------------------DialogInfo
-
-@Component({
-  selector: 'app-dialog-content-example-dialog',
-  templateUrl: './dialog-content-example-dialog.html',
-  styleUrls: ['./home-page.component.css']
-})
-
-export class DialogContentExampleDialog implements OnInit{
-
-  dataSource:any;
-  displayedColumns2: string[] = ['website','phone'];
-
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
-
-  ngOnInit() {
-    this.dataSource = [this.data.people];
   }
 }

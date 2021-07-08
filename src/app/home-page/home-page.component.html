@@ -4,7 +4,6 @@
 <!--  <li *ngFor="let person of peopleToPrint$ | async">{{person.name}}</li>-->
 <!--</ul>-->
   Search for name <mat-search-bar [(ngModel)]="nameToSearch" (onEnter)="searchForName()" (onClose)="restartTable()"></mat-search-bar>
-
 <table mat-table [dataSource]="dataSource">
   <!-- Id Column -->
   <ng-container matColumnDef="id">
