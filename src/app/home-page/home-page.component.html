@@ -13,7 +13,7 @@
 
   <!-- Name Column -->
   <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef> Name & Surname </th>
+    <th mat-header-cell *matHeaderCellDef> Full Name </th>
     <td mat-cell *matCellDef="let user"> {{user.name}} </td>
   </ng-container>
 
@@ -42,6 +42,14 @@
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let element">
       <button mat-button (click)="removeData(element.id)">DELETE</button>
+    </td>
+  </ng-container>
+
+  <!-- ButtonEdit Column -->
+  <ng-container matColumnDef="edit">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-button (click)="editData(element.id)">EDIT NAME</button>
     </td>
   </ng-container>
 

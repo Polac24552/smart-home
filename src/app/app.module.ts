@@ -20,6 +20,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatIconModule} from "@angular/material/icon";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {DialogComponent} from './dialog/dialog.component';
+import { DialogEditComponent } from './dialog-edit/dialog-edit.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {DialogComponent} from './dialog/dialog.component';
     HomePageComponent,
     BoxesComponent,
     PageNotFoundComponent,
-    DialogComponent
+    DialogComponent,
+    DialogEditComponent
   ],
   imports: [
     BrowserModule,
@@ -50,6 +52,7 @@ import {DialogComponent} from './dialog/dialog.component';
     PeopleService,
     MatTableDataSource,
     DialogComponent,
+    DialogEditComponent,
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
   ],
   bootstrap: [AppComponent]

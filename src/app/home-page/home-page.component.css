@@ -20,4 +20,6 @@ table {
 td,th{
   padding-left: 30px;
 }
-
+input{
+  font-size: large;
+}
