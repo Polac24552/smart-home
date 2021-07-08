@@ -16,7 +16,8 @@ export class HomePageComponent implements OnInit {
   dataSource:any;
   displayedColumns: string[] = ['id', 'name', 'email', 'username', 'info', 'del'];
   @ViewChild(MatTable) table: MatTable<any>;
-  search = new FormControl('');
+  //search = new FormControl('');
+  nameToSearch: string;
 
   //tworzymy połączenie z peopleservice aby mieć dostęp do jej funkcji zwracającej array
   constructor(public peopleService: PeopleService, public dialog: MatDialog) {}
@@ -53,12 +54,12 @@ export class HomePageComponent implements OnInit {
 
   foundPpl: Array<any> = [];
 
-  searchForName(name:string){
+  searchForName(){
     this.foundPpl = [];
-    if(name == null){this.restartTable();}
+    if(this.nameToSearch == null){this.restartTable();}
 
     this.peopleToPrint$.find((element: any) => {
-      if(element.name.toString().toLowerCase().includes(name.toLowerCase())){
+      if(element.name.toString().toLowerCase().includes(this.nameToSearch.toLowerCase())){
         this.foundPpl.push(element);
       }
     });
@@ -78,6 +79,9 @@ export class HomePageComponent implements OnInit {
       this.peopleToPrint$ = res;
       this.dataSource = res;
     })
+  }
+
+  transform(value: any, ...args: any[]): any {
   }
 }
 
