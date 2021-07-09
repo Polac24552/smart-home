@@ -1,3 +1,13 @@
+input[type=checkbox]
+{
+  /* Double-sized Checkboxes */
+  -ms-transform: scale(2); /* IE */
+  -moz-transform: scale(2); /* FF */
+  -webkit-transform: scale(2); /* Safari and Chrome */
+  -o-transform: scale(2); /* Opera */
+  transform: scale(2);
+  padding: 2px;
+}
 .home_page_div{
   min-width: 100vh;
   min-height: 85vh;
@@ -19,7 +29,15 @@ table {
 }
 td,th{
   padding-left: 30px;
+  height: 4vh;
+  min-width: 2vh;
+  text-align: center;
 }
 input{
   font-size: large;
+}
+.action_button{
+  border-right: 1px solid rgba(222,222,222, 0.5);
+  border-left: 1px solid rgba(222,222,222, 0.5);
+  width: 2vh !important;
 }
