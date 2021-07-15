@@ -6,7 +6,7 @@ import {Observable, Subscription} from "rxjs";
 @Component({
   selector: 'app-dialog-new-user',
   templateUrl: './dialog-new-user.component.html',
-  styleUrls: ['./dialog-new-user.component.css']
+  styleUrls: ['../home-page/home-page.component.css']
 })
 export class DialogNewUserComponent implements OnInit, OnDestroy {
 

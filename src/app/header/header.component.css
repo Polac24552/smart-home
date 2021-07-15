@@ -6,7 +6,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: skyblue;
+  background-color: #838C91;
 }
 .header_div ul{
   width:100%;
@@ -14,7 +14,7 @@
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  font-size: large;
+  font-size: x-large;
 }
 ul li a{
   color: black;

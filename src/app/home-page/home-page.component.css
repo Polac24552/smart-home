@@ -41,3 +41,20 @@ input{
   border-left: 1px solid rgba(222,222,222, 0.5);
   width: 2vh !important;
 }
+.mat-header-cell{
+  background-color: #C8D5DE;
+  font-size: large;
+}
+.mat-cell{
+  background-color: #DEDEC8;
+}
+.mat-button.add_button{
+  background-color: #C8D5DE;
+  margin-top: 1%;
+}
+.mat-button{
+  background-color: #DEDEC8;
+}
+.mat-typography input{
+  width: 30vh;
+}
