@@ -8,6 +8,6 @@ export class PeopleService{
   constructor(private http: HttpClient) {}
 
   fetchPeople(): Observable<Object> {
-    return this.http.get(`../assets/Data/people.json`);
+      return this.http.get(`http://localhost:3000/api/users`);
   }
 }

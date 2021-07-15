@@ -1,9 +1,22 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {PeopleService} from "../people.service";
 import {MatDialog} from "@angular/material/dialog";
-import {MatTable} from "@angular/material/table";
+import {MatTable, MatTableDataSource} from "@angular/material/table";
 import {DialogComponent} from "../dialog/dialog.component";
 import {DialogEditComponent} from "../dialog-edit/dialog-edit.component";
+import {DialogNewUserComponent} from "../dialog-new-user/dialog-new-user.component";
+import {Subscription} from "rxjs";
+import {HttpClient} from "@angular/common/http";
+import {waitForAsync} from "@angular/core/testing";
+
+interface Users{
+  _id: number;
+  name: string;
+  username: string;
+  email: string;
+  phone: number;
+  website: string;
+}
 
 @Component({
   selector: 'app-home-page',
@@ -11,22 +24,25 @@ import {DialogEditComponent} from "../dialog-edit/dialog-edit.component";
   styleUrls: ['./home-page.component.css']
 })
 
-export class HomePageComponent implements OnInit {
+export class HomePageComponent implements OnInit, OnDestroy {
 
-  dataFromAPI:any;
-  dataSource:any;
-  displayedColumns: string[] = ['id', 'name', 'email', 'username', 'info', 'del','edit','delAll'];
+  dataFromAPI: Users[];
+  dataSource: Users[];
+  displayedColumns: string[] = ['lp', 'name', 'email', 'username', 'info', 'del','edit','delAll'];
   @ViewChild(MatTable) table: MatTable<any>;
   nameToSearch: string;
   foundPeople: Array<any> = [];
   idsToDelete: Array<any> = [];
   isChecked:boolean;
+  loadingUsersSubscription: Subscription;
+  delUsersSubscription: Subscription;
+  lp: number = 0;
 
-  constructor(public peopleService: PeopleService, public dialog: MatDialog) {}
+  constructor(public peopleService: PeopleService, public dialog: MatDialog,private http: HttpClient) {}
 
   openDialog(elementId: number) {
     const person = this.dataFromAPI.find((element: any) => {
-      return element.id === elementId;
+      return element._id === elementId;
     });
     if(!person){return;}
     let dialogRef:any;
@@ -46,7 +62,7 @@ export class HomePageComponent implements OnInit {
 
   editData(elementId: number){
     const person = this.dataFromAPI.find((element: any) => {
-      return element.id === elementId;
+      return element._id === elementId;
     });
     if(!person){return;}
     let dialogRef:any;
@@ -59,7 +75,7 @@ export class HomePageComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe((result:any) => {
-        this.dataSource = JSON.parse(localStorage.getItem('myData') || '[]');
+        this.takeApiFromDatabase();
         this.table.renderRows();
       });
     }
@@ -67,19 +83,22 @@ export class HomePageComponent implements OnInit {
 
   removeData(elementId: number) {
     if(confirm("Are you sure to delete person with ID: "+elementId+" ?")) {
-      const isFindIndex = this.dataFromAPI.findIndex((element: any) => {
-        return element.id === elementId;
+      const isFindIndex = this.dataSource.findIndex((element: any) => {
+        return element._id === elementId;
       });
       if(isFindIndex < 0){return;}
 
-      this.dataFromAPI.splice(isFindIndex, 1);
-      this.dataSource = this.dataFromAPI;
-      localStorage.setItem('myData', JSON.stringify(this.dataSource));
-      if(this.dataSource.length === 0) {localStorage.clear();}
-
-      this.table.renderRows();
+      const deleteHttp = this.http.delete(`http://localhost:3000/api/user-del/${elementId}`)
+        .subscribe(
+        data  => {
+          console.log("DELETE Request: ", data);
+          this.takeApiFromDatabase();
+          this.table.renderRows();
+        },
+        error  => {
+          console.log("Error", error);
+        });
     }
-    return;
   }
 
   searchForName(){
@@ -97,7 +116,7 @@ export class HomePageComponent implements OnInit {
   }
 
   restartTable(){
-    this.dataSource = this.dataFromAPI;
+    this.takeApiFromDatabase();
     this.table.renderRows();
   }
 
@@ -123,40 +142,61 @@ export class HomePageComponent implements OnInit {
   }
 
   deleteSelectedBoxes() {
-    if (confirm("Are you sure to delete people with IDs: " + this.idsToDelete + " ?")) {
+    if (confirm("Are you sure to delete selected users ?")) {
       if (this.idsToDelete) {
-        this.idsToDelete.forEach((elementId: number) => {
+        this.idsToDelete.forEach((elementId: any) => {
           const isFindIndex = this.dataSource.findIndex((element: any) => {
-            return element.id === elementId;
+            return element._id === elementId;
           });
           if (isFindIndex > -1) {
-            this.dataSource.splice(isFindIndex, 1);
+            const deleteHttp = this.http.delete(`http://localhost:3000/api/user-del/${elementId}`)
+              .subscribe(
+                data  => {
+                  console.log("DELETE Request: ", data);
+                  this.takeApiFromDatabase();
+                  this.table.renderRows();
+                },
+                error  => {
+                  console.log("Error", error);
+                });
           }
         });
-
-        localStorage.setItem('myData', JSON.stringify(this.dataSource));
-        if (this.dataSource.length === 0) {
-          localStorage.clear();
-        }
+        this.takeApiFromDatabase();
         this.table.renderRows();
       }
       this.idsToDelete = [];
     }
   }
 
-  ngOnInit(): void {
-    if(localStorage.getItem('myData') == null) {
-      this.peopleService.fetchPeople().subscribe(res => {
+  addData():void{
+    let dialogRef:any;
+
+    if(this.dialog.openDialogs.length === 0) {
+      dialogRef = this.dialog.open(DialogNewUserComponent);
+
+      dialogRef.afterClosed().subscribe((result:any) => {
+        this.takeApiFromDatabase();
+        this.table.renderRows();
+      });
+    }
+  }
+
+  takeApiFromDatabase(){
+    this.loadingUsersSubscription = this.peopleService.fetchPeople()
+      .subscribe((res: any) => {
         this.dataFromAPI = res;
         this.dataSource = res;
-        localStorage.setItem('myData', JSON.stringify(this.dataFromAPI));
       }, error => {
-        console.log('localStorage not null');
+        console.log(error);
       });
-    }else{
-      // localStorage.clear();
-      this.dataFromAPI = JSON.parse(localStorage.getItem('myData') || '[]');
-      this.dataSource = JSON.parse(localStorage.getItem('myData') || '[]');
-    }
+  }
+
+  ngOnInit(): void {
+    this.takeApiFromDatabase();
+  }
+
+  ngOnDestroy() {
+    this.loadingUsersSubscription?.unsubscribe();
+    this.delUsersSubscription?.unsubscribe()
   }
 }

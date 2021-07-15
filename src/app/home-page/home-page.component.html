@@ -6,9 +6,9 @@
   Search for name <mat-search-bar [(ngModel)]="nameToSearch" (onEnter)="searchForName()" (onClose)="restartTable()"></mat-search-bar>
 <table mat-table [dataSource]="dataSource">
   <!-- Id Column -->
-  <ng-container matColumnDef="id">
-    <th style="text-align:center;" mat-header-cell *matHeaderCellDef> ID </th>
-    <td mat-cell *matCellDef="let user"> {{user.id}} </td>
+  <ng-container matColumnDef="lp">
+    <th style="text-align:center;" mat-header-cell *matHeaderCellDef> Lp. </th>
+    <td mat-cell *matCellDef="let element; let i = index;"> {{i+1}} </td>
   </ng-container>
 
   <!-- Name Column -->
@@ -33,7 +33,7 @@
   <ng-container matColumnDef="info">
     <th style="text-align:center;" mat-header-cell *matHeaderCellDef></th>
     <td class="action_button" mat-cell *matCellDef="let element">
-      <button mat-button (click)="openDialog(element.id)">SHOW</button>
+      <button mat-button (click)="openDialog(element._id)">SHOW</button>
     </td>
   </ng-container>
 
@@ -41,7 +41,7 @@
   <ng-container matColumnDef="del">
     <th style="text-align:center;" mat-header-cell *matHeaderCellDef>Actions</th>
     <td class="action_button" mat-cell *matCellDef="let element">
-      <button mat-button (click)="removeData(element.id)">DELETE</button>
+      <button mat-button (click)="removeData(element._id)">DELETE</button>
     </td>
   </ng-container>
 
@@ -49,7 +49,7 @@
   <ng-container matColumnDef="edit">
     <th style="text-align:center;" mat-header-cell *matHeaderCellDef></th>
     <td class="action_button" mat-cell *matCellDef="let element">
-      <button mat-button (click)="editData(element.id)">EDIT NAME</button>
+      <button mat-button (click)="editData(element._id)">EDIT NAME</button>
     </td>
   </ng-container>
 
@@ -57,11 +57,12 @@
   <ng-container matColumnDef="delAll">
     <th style="text-align:center;" mat-header-cell *matHeaderCellDef="let element"><button mat-button (click)="deleteSelectedBoxes()">DELETE SELECTED</button></th>
     <td class="action_button" mat-cell *matCellDef="let element">
-      <input type="checkbox" (change)="checkboxCheck($event, element.id)">
+      <input type="checkbox" (change)="checkboxCheck($event, element._id)">
     </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+  <button mat-button (click)="addData()">Add New User</button>
 </div>

@@ -21,6 +21,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {DialogComponent} from './dialog/dialog.component';
 import { DialogEditComponent } from './dialog-edit/dialog-edit.component';
+import { DialogNewUserComponent } from './dialog-new-user/dialog-new-user.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { DialogEditComponent } from './dialog-edit/dialog-edit.component';
     BoxesComponent,
     PageNotFoundComponent,
     DialogComponent,
-    DialogEditComponent
+    DialogEditComponent,
+    DialogNewUserComponent
   ],
   imports: [
     BrowserModule,
