@@ -1,13 +1,12 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {PeopleService} from "../people.service";
 import {MatDialog} from "@angular/material/dialog";
-import {MatTable, MatTableDataSource} from "@angular/material/table";
+import {MatTable} from "@angular/material/table";
 import {DialogComponent} from "../dialog/dialog.component";
 import {DialogEditComponent} from "../dialog-edit/dialog-edit.component";
 import {DialogNewUserComponent} from "../dialog-new-user/dialog-new-user.component";
 import {Subscription} from "rxjs";
 import {HttpClient} from "@angular/common/http";
-import {waitForAsync} from "@angular/core/testing";
 
 interface Users{
   _id: number;

@@ -56,5 +56,8 @@ input{
   background-color: #DEDEC8;
 }
 .mat-typography input{
+  border: none;
+  background-color: #DEDEC8;
+  border-bottom: 2px solid dimgrey;
   width: 30vh;
 }

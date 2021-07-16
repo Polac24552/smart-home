@@ -1,28 +1,38 @@
-<h1>Add new user to database</h1>
+<h1>Add new user</h1>
 
-<table>
-  <tr>
-    <td><label for="name">Name:</label></td>
-    <td><input [(ngModel)]="nameToAdd" id="name" size="40" type="text" required/></td>
-  </tr>
-  <tr>
-    <td><label for="username">Username:</label></td>
-    <td><input [(ngModel)]="userNameToAdd" id="username" size="40" type="text" required/></td>
-  </tr>
-  <tr>
-    <td><label for="email">Email:</label></td>
-    <td><input [(ngModel)]="emailToAdd" id="email" size="40" type="text" required/></td>
-  </tr>
-  <tr>
-    <td><label for="phone">Phone:</label></td>
-    <td><input [(ngModel)]="phoneToAdd" id="phone" size="40" type="number" required/></td>
-  </tr>
-  <tr>
-    <td><label for="website">Website:</label></td>
-    <td><input [(ngModel)]="webSiteToAdd" id="website" size="40" type="text" required/></td>
-  </tr>
-</table><br>
+<form [formGroup]="userForm" class="user_form_add">
+
+  <mat-form-field hintLabel="Max 30 characters" appearance="fill">
+    <mat-label>Name</mat-label>
+    <input matInput #input1 maxlength="30" placeholder="Full Name" [formControl]="nameToAdd">
+    <mat-hint align="end">{{input1.value?.length || 0}}/30</mat-hint>
+  </mat-form-field>
+
+  <mat-form-field hintLabel="Max 20 characters" appearance="fill">
+    <mat-label>Username</mat-label>
+    <input matInput #input2 maxlength="20" placeholder="My nick" [formControl]="userNameToAdd">
+    <mat-hint align="end">{{input2.value?.length || 0}}/20</mat-hint>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>E-mail</mat-label>
+    <input matInput #input3 placeholder="mail@wp.pl" [formControl]="emailToAdd">
+  </mat-form-field>
+
+  <mat-form-field hintLabel="9 characters" appearance="fill">
+    <mat-label>Phone</mat-label>
+    <input matInput #input4 maxlength="9" placeholder="123123123" [formControl]="phoneToAdd">
+    <mat-hint align="end">{{input4.value?.length || 0}}/9</mat-hint>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Web</mat-label>
+    <input matInput #input5 placeholder="www.web.pl" [formControl]="webSiteToAdd">
+  </mat-form-field>
+
+</form>
+
 <mat-dialog-actions align="end">
-  <button mat-button class="popup_button" style="color: darkgreen" [mat-dialog-close]="true" (click)="addData()">Add</button>
+  <button mat-button [disabled]="!userForm.valid" class="popup_button" style="color: darkgreen" [mat-dialog-close]="true" (click)="addData()">Add</button>
   <button mat-button class="popup_button" style="color: darkred" [mat-dialog-close]="true" >Close</button>
 </mat-dialog-actions>
