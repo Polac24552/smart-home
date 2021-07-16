@@ -147,7 +147,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     if (confirm("Are you sure to delete selected users ?")) {
       if (this.idsToDelete) {
         this.idsToDelete.forEach((elementId: any) => {
-          const isFindIndex = this.dataSource.findIndex((element: any) => {
+            const isFindIndex = this.dataSource.findIndex((element: any) => {
             return element._id === elementId;
           });
           if (isFindIndex > -1) {
@@ -170,7 +170,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     }
   }
 
-  addData():void{
+  addData(){
     let dialogRef:any;
 
     if(this.dialog.openDialogs.length === 0) {
