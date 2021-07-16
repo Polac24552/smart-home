@@ -2,6 +2,8 @@ import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {Subscription} from "rxjs";
 import {HttpClient} from "@angular/common/http";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {PeopleService} from "../people.service";
 
 interface User{
   _id: number;
@@ -17,32 +19,48 @@ interface User{
   templateUrl: './dialog-edit.component.html',
   styleUrls: ['../home-page/home-page.component.css']
 })
+
 export class DialogEditComponent implements OnInit, OnDestroy {
 
+  //region Variables
   dataSource: User[];
   displayedColumns: string[] = ['name','username','email','phone','website'];
-  newNameToSet: string;
-  newUserNameToSet: string;
-  newEmailToSet: string;
-  newPhoneToSet: number;
-  newWebsiteToSet: string;
+  reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
+  userForm: FormGroup;
+  nameToAdd = new FormControl('',[Validators.required, this.noWhitespaceValidator]);
+  userNameToAdd = new FormControl('', [Validators.required, this.noWhitespaceValidator]);
+  emailToAdd = new FormControl('', [Validators.required, Validators.email]);
+  phoneToAdd = new FormControl('', [Validators.required, Validators.minLength(9)]);
+  webSiteToAdd = new FormControl('',[Validators.required, Validators.pattern(this.reg)]);
   editUserSubscription: Subscription;
+  //endregion
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient) {}
+  constructor(public peopleService: PeopleService, @Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient,fb: FormBuilder) {
+    this.userForm = fb.group({
+      nameToAdd: this.nameToAdd,
+      userNameToAdd: this.userNameToAdd,
+      emailToAdd: this.emailToAdd,
+      phoneToAdd: this.phoneToAdd,
+      webSiteToAdd: this.webSiteToAdd
+    });
+  }
+
+  //region Functions
+  public noWhitespaceValidator(control: FormControl) {
+    const isWhitespace = (control.value || '').trim().length === 0;
+    const isValid = !isWhitespace;
+    return isValid ? null : { 'whitespace': true };
+  }
 
   changeData(){
-    if(!(this.newNameToSet && this.newUserNameToSet && this.newEmailToSet && this.newPhoneToSet && this.newWebsiteToSet)) {
-      if(confirm("Nie moża zostawić pustego pola")) {return;} return;
-    }
-
-    const patchHttp = this.http.patch("http://localhost:3000/api/user-edit",{
-      id: this.data.peopleToEdit._id,
-      name: this.newNameToSet.trim().toString(),
-      username: this.newUserNameToSet.trim().toString(),
-      email: this.newEmailToSet.trim().toString(),
-      phone: this.newPhoneToSet,
-      website: this.newWebsiteToSet.trim().toString()
-    })
+    this.editUserSubscription = this.peopleService.editUser(
+      this.data.peopleToEdit._id,
+      this.userForm.value.nameToAdd.trim(),
+      this.userForm.value.userNameToAdd.trim(),
+      this.userForm.value.emailToAdd.trim(),
+      this.userForm.value.phoneToAdd,
+      this.userForm.value.webSiteToAdd.trim()
+    )
       .subscribe(
         data  => {
           console.log("EDIT Request: ", data);
@@ -55,14 +73,15 @@ export class DialogEditComponent implements OnInit, OnDestroy {
   ngOnInit() {
     if(!this.data) { return; }
     this.dataSource = [this.data.peopleToEdit];
-    this.newNameToSet = this.data.peopleToEdit.name;
-    this.newUserNameToSet = this.data.peopleToEdit.username;
-    this.newEmailToSet = this.data.peopleToEdit.email;
-    this.newPhoneToSet = this.data.peopleToEdit.phone;
-    this.newWebsiteToSet = this.data.peopleToEdit.website;
+    this.nameToAdd.setValue(this.data.peopleToEdit.name);
+    this.userNameToAdd.setValue(this.data.peopleToEdit.username);
+    this.emailToAdd.setValue(this.data.peopleToEdit.email);
+    this.phoneToAdd.setValue(this.data.peopleToEdit.phone);
+    this.webSiteToAdd.setValue(this.data.peopleToEdit.website);
   }
 
   ngOnDestroy() {
     this.editUserSubscription?.unsubscribe();
   }
+  //endregion
 }

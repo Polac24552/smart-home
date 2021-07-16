@@ -25,9 +25,10 @@ interface Users{
 
 export class HomePageComponent implements OnInit, OnDestroy {
 
+  //region Variables
   dataFromAPI: Users[];
   dataSource: Users[];
-  displayedColumns: string[] = ['lp', 'name', 'email', 'username', 'info', 'del','edit','delAll'];
+  displayedColumns: string[] = ['lp', 'name', 'username', 'email', 'info', 'del','edit','delAll'];
   @ViewChild(MatTable) table: MatTable<any>;
   nameToSearch: string;
   foundPeople: Array<any> = [];
@@ -36,9 +37,11 @@ export class HomePageComponent implements OnInit, OnDestroy {
   loadingUsersSubscription: Subscription;
   delUsersSubscription: Subscription;
   lp: number = 0;
+  //endregion
 
   constructor(public peopleService: PeopleService, public dialog: MatDialog,private http: HttpClient) {}
 
+  //region Functions
   openDialog(elementId: number) {
     const person = this.dataFromAPI.find((element: any) => {
       return element._id === elementId;
@@ -87,7 +90,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
       });
       if(isFindIndex < 0){return;}
 
-      const deleteHttp = this.http.delete(`http://localhost:3000/api/user-del/${elementId}`)
+      this.delUsersSubscription = this.peopleService.delUser(elementId)
         .subscribe(
         data  => {
           console.log("DELETE Request: ", data);
@@ -148,7 +151,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
             return element._id === elementId;
           });
           if (isFindIndex > -1) {
-            const deleteHttp = this.http.delete(`http://localhost:3000/api/user-del/${elementId}`)
+            this.delUsersSubscription = this.peopleService.delUser(elementId)
               .subscribe(
                 data  => {
                   console.log("DELETE Request: ", data);
@@ -198,4 +201,5 @@ export class HomePageComponent implements OnInit, OnDestroy {
     this.loadingUsersSubscription?.unsubscribe();
     this.delUsersSubscription?.unsubscribe()
   }
+  //endregion
 }

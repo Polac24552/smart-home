@@ -61,3 +61,6 @@ input{
   border-bottom: 2px solid dimgrey;
   width: 30vh;
 }
+p{
+  text-align: center;
+}
