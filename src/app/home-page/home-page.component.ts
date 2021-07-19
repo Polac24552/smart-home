@@ -1,8 +1,7 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {PeopleService} from "../people.service";
 import {MatDialog} from "@angular/material/dialog";
 import {MatTable} from "@angular/material/table";
-import {DialogComponent} from "../dialog/dialog.component";
 import {DialogEditComponent} from "../dialog-edit/dialog-edit.component";
 import {DialogNewUserComponent} from "../dialog-new-user/dialog-new-user.component";
 import {Subscription} from "rxjs";

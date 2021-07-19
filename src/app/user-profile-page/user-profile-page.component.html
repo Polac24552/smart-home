@@ -5,10 +5,10 @@
         <mat-icon>perm_identity</mat-icon>
       </div>
       <div>
-        <button mat-button (click)="editData()"><mat-icon>lock_open</mat-icon></button>
-        <button mat-button (click)="stopEditData()"><mat-icon>lock</mat-icon></button>
-        <button mat-button (click)="undoData()"><mat-icon>undo</mat-icon></button>
-        <button mat-button [disabled]="!userForm.valid" (click)="changeData()"><mat-icon>save</mat-icon></button>
+        <button mat-button matTooltip="Unlock editing" (click)="editData()"><mat-icon>lock_open</mat-icon></button>
+        <button mat-button matTooltip="Lock editing" (click)="stopEditData()"><mat-icon>lock</mat-icon></button>
+        <button mat-button matTooltip="Undo changes" (click)="undoData()"><mat-icon>undo</mat-icon></button>
+        <button mat-button matTooltip="Save changes" [disabled]="!userForm.valid" (click)="changeData()"><mat-icon>save</mat-icon></button>
       </div>
     </div>
     <div class="user_content">

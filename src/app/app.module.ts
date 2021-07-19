@@ -22,6 +22,7 @@ import { DialogEditComponent } from './dialog-edit/dialog-edit.component';
 import { DialogNewUserComponent } from './dialog-new-user/dialog-new-user.component';
 import {MatInputModule} from "@angular/material/input";
 import { UserProfilePageComponent } from './user-profile-page/user-profile-page.component';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { UserProfilePageComponent } from './user-profile-page/user-profile-page.
     MatDialogModule,
     NgMatSearchBarModule,
     MatFormFieldModule,
+    MatTooltipModule,
     MatIconModule,
     FormsModule,
     ReactiveFormsModule,
