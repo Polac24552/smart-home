@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {PeopleService} from "../people.service";
 import {MatDialog} from "@angular/material/dialog";
 import {MatTable} from "@angular/material/table";
@@ -37,6 +37,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
   loadingUsersSubscription: Subscription;
   delUsersSubscription: Subscription;
   lp: number = 0;
+  tableSize:number;
+  boxes = document.getElementsByName("box");
   //endregion
 
   constructor(public peopleService: PeopleService, public dialog: MatDialog,private http: HttpClient, private router: Router) {}
@@ -126,7 +128,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   checkboxCheck(event:any, elementId:number){
-    // console.log(event.target.checked);
     if(event.target.checked){
       const isFindIndex = this.idsToDelete.findIndex((element: number) => {
         return element === elementId;
@@ -147,8 +148,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   deleteSelectedBoxes() {
-    if (confirm("Are you sure to delete selected users ?")) {
-      if (this.idsToDelete) {
+    if (this.idsToDelete.length > 0) {
+      if (confirm("Are you sure to delete selected users ?")) {
         this.idsToDelete.forEach((elementId: any) => {
             const isFindIndex = this.dataSource.findIndex((element: any) => {
             return element._id === elementId;
@@ -170,6 +171,12 @@ export class HomePageComponent implements OnInit, OnDestroy {
         this.table.renderRows();
       }
       this.idsToDelete = [];
+    }else{
+      for (let i = 0; i < this.boxes.length; i++) {
+        (this.boxes[i] as HTMLInputElement).checked = true;
+        this.idsToDelete.push((this.boxes[i] as HTMLInputElement).value);
+        console.log(this.idsToDelete);
+      }
     }
   }
 
@@ -190,6 +197,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     this.loadingUsersSubscription = this.peopleService.fetchPeople()
       .subscribe((res: any) => {
         this.dataSource = res;
+        this.tableSize = this.dataSource.length;
       }, error => {
         console.log(error);
       });
@@ -197,6 +205,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.takeApiFromDatabase();
+    console.log(this.boxes);
   }
 
   ngOnDestroy() {

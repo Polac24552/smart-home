@@ -57,12 +57,12 @@
   <ng-container matColumnDef="delAll">
     <th style="text-align:center;" mat-header-cell *matHeaderCellDef="let element"><button mat-button (click)="deleteSelectedBoxes()">DELETE SELECTED</button></th>
     <td class="action_button" mat-cell *matCellDef="let element">
-      <input type="checkbox" (change)="checkboxCheck($event, element._id)">
+      <input type="checkbox" value="{{element._id}}" name="box" (change)="checkboxCheck($event, element._id)">
     </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
-  <button mat-button class="add_button" (click)="addData()"><mat-icon>add</mat-icon>Add New User</button>
+  <button mat-button class="add_button" (click)="addData()">Add New User</button>
 </div>

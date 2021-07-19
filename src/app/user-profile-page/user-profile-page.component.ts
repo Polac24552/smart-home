@@ -18,6 +18,7 @@ interface User{
   templateUrl: './user-profile-page.component.html',
   styleUrls: ['./user-profile-page.component.css']
 })
+
 export class UserProfilePageComponent implements OnInit, OnDestroy {
 
   //#region Variables
@@ -47,6 +48,7 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
     });
   }
 
+  //#region Functions
   undoData(){
     this.assignFormData();
     this.userForm.disable();
@@ -95,6 +97,7 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
     this.phoneToAdd.setValue(this.userData[0].phone);
     this.webSiteToAdd.setValue(this.userData[0].website);
   }
+
   takeUserFromDatabase(){
     this.loadingUsersSubscription = this.peopleService.getUserByID(this.userID)
       .subscribe((res: any) => {
@@ -118,4 +121,5 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
     this.loadingUsersSubscription?.unsubscribe();
     this.editUserSubscription?.unsubscribe();
   }
+  //#endregion
 }
