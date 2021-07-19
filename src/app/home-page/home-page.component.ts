@@ -7,6 +7,7 @@ import {DialogEditComponent} from "../dialog-edit/dialog-edit.component";
 import {DialogNewUserComponent} from "../dialog-new-user/dialog-new-user.component";
 import {Subscription} from "rxjs";
 import {HttpClient} from "@angular/common/http";
+import {Router} from "@angular/router";
 
 interface Users{
   _id: number;
@@ -26,7 +27,6 @@ interface Users{
 export class HomePageComponent implements OnInit, OnDestroy {
 
   //region Variables
-  dataFromAPI: Users[];
   dataSource: Users[];
   displayedColumns: string[] = ['lp', 'name', 'username', 'email', 'info', 'del','edit','delAll'];
   @ViewChild(MatTable) table: MatTable<any>;
@@ -39,31 +39,34 @@ export class HomePageComponent implements OnInit, OnDestroy {
   lp: number = 0;
   //endregion
 
-  constructor(public peopleService: PeopleService, public dialog: MatDialog,private http: HttpClient) {}
+  constructor(public peopleService: PeopleService, public dialog: MatDialog,private http: HttpClient, private router: Router) {}
 
   //region Functions
-  openDialog(elementId: number) {
-    const person = this.dataFromAPI.find((element: any) => {
+  showProfile(elementId: number) {
+    const person = this.dataSource.find((element: any) => {
       return element._id === elementId;
     });
     if(!person){return;}
-    let dialogRef:any;
 
-    if(this.dialog.openDialogs.length === 0) {
-       dialogRef = this.dialog.open(DialogComponent, {
-        data: {
-          people: person
-        }
-      });
+    this.router.navigate(['/user-profile', elementId]).then(r => console.log('User found: ',r));
 
-      dialogRef.afterClosed().subscribe((result:any) => {
-        console.log(`Dialog result: ${result}`);
-      });
-    }
+    //let dialogRef:any;
+
+    //if(this.dialog.openDialogs.length === 0) {
+    //   dialogRef = this.dialog.open(DialogComponent, {
+    //    data: {
+    //      people: person
+    //    }
+    //  });
+
+    //  dialogRef.afterClosed().subscribe((result:any) => {
+    //    console.log(`Dialog result: ${result}`);
+    //  });
+    //}
   }
 
   editData(elementId: number){
-    const person = this.dataFromAPI.find((element: any) => {
+    const person = this.dataSource.find((element: any) => {
       return element._id === elementId;
     });
     if(!person){return;}
@@ -107,7 +110,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     this.foundPeople = [];
     if(!this.nameToSearch){this.restartTable();}
 
-    this.dataFromAPI.find((element: any) => {
+    this.dataSource.find((element: any) => {
       if(element.name.toString().toLowerCase().includes(this.nameToSearch.toLowerCase().trim())){
         this.foundPeople.push(element);
       }
@@ -186,7 +189,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
   takeApiFromDatabase(){
     this.loadingUsersSubscription = this.peopleService.fetchPeople()
       .subscribe((res: any) => {
-        this.dataFromAPI = res;
         this.dataSource = res;
       }, error => {
         console.log(error);

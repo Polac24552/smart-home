@@ -33,7 +33,7 @@
   <ng-container matColumnDef="info">
     <th style="text-align:center;" mat-header-cell *matHeaderCellDef></th>
     <td class="action_button" mat-cell *matCellDef="let element">
-      <button mat-button (click)="openDialog(element._id)">SHOW</button>
+      <button mat-button (click)="showProfile(element._id)">PROFILE</button>
     </td>
   </ng-container>
 
@@ -64,5 +64,5 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
-  <button mat-button class="add_button" (click)="addData()">Add New User</button>
+  <button mat-button class="add_button" (click)="addData()"><mat-icon>add</mat-icon>Add New User</button>
 </div>

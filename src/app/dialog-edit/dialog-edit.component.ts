@@ -30,7 +30,7 @@ export class DialogEditComponent implements OnInit, OnDestroy {
   nameToAdd = new FormControl('',[Validators.required, this.noWhitespaceValidator]);
   userNameToAdd = new FormControl('', [Validators.required, this.noWhitespaceValidator]);
   emailToAdd = new FormControl('', [Validators.required, Validators.email]);
-  phoneToAdd = new FormControl('', [Validators.required, Validators.minLength(9)]);
+  phoneToAdd = new FormControl('', [Validators.required, Validators.minLength(9), Validators.pattern('^[0-9]{9}')]);
   webSiteToAdd = new FormControl('',[Validators.required, Validators.pattern(this.reg)]);
   editUserSubscription: Subscription;
   //endregion

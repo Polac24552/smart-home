@@ -22,7 +22,10 @@
     <!-- Phone Column -->
     <ng-container matColumnDef="phone">
       <th mat-header-cell *matHeaderCellDef> Phone </th>
-      <td mat-cell *matCellDef="let user"><input matInput #input4 maxlength="9" [formControl]="phoneToAdd"></td>
+      <td mat-cell *matCellDef="let user">
+        <input matInput type="number" #input4 maxlength="9" onKeyPress="if(this.value.length==9) return false;" placeholder="123123123" [formControl]="phoneToAdd">
+        <mat-hint align="end">{{input4.value?.length || 0}}/9</mat-hint>
+      </td>
     </ng-container>
 
     <!-- Web Column -->

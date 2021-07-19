@@ -22,6 +22,7 @@ import {DialogComponent} from './dialog/dialog.component';
 import { DialogEditComponent } from './dialog-edit/dialog-edit.component';
 import { DialogNewUserComponent } from './dialog-new-user/dialog-new-user.component';
 import {MatInputModule} from "@angular/material/input";
+import { UserProfilePageComponent } from './user-profile-page/user-profile-page.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import {MatInputModule} from "@angular/material/input";
     PageNotFoundComponent,
     DialogComponent,
     DialogEditComponent,
-    DialogNewUserComponent
+    DialogNewUserComponent,
+    UserProfilePageComponent
   ],
   imports: [
     BrowserModule,

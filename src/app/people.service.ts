@@ -8,7 +8,11 @@ export class PeopleService{
   constructor(private http: HttpClient) {}
 
   fetchPeople(): Observable<Object> {
-      return this.http.get(`http://localhost:3000/api/users`);
+    return this.http.get(`http://localhost:3000/api/users`);
+  }
+
+  getUserByID(userID:number): Observable<Object> {
+    return this.http.get(`http://localhost:3000/api/user/${userID}`);
   }
 
   delUser(elementId:number): Observable<Object> {

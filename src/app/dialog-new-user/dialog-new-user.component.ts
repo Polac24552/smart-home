@@ -12,14 +12,14 @@ import {PeopleService} from "../people.service";
 
 export class DialogNewUserComponent implements OnInit, OnDestroy {
 
-  //region Variavles
+  //region Variables
   postUsersSubscription: Subscription;
   reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
   userForm: FormGroup;
   nameToAdd = new FormControl('',[Validators.required, this.noWhitespaceValidator]);
   userNameToAdd = new FormControl('', [Validators.required, this.noWhitespaceValidator]);
   emailToAdd = new FormControl('', [Validators.required, Validators.email]);
-  phoneToAdd = new FormControl('', [Validators.required, Validators.minLength(9)]);
+  phoneToAdd = new FormControl('', [Validators.required, Validators.minLength(9), Validators.pattern('^[0-9]{9}')]);
   webSiteToAdd = new FormControl('',[Validators.required, Validators.pattern(this.reg)]);
   //endregion
 

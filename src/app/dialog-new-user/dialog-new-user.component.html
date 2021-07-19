@@ -5,29 +5,34 @@
   <mat-form-field hintLabel="Max 30 characters" appearance="fill">
     <mat-label>Name</mat-label>
     <input matInput #input1 maxlength="30" placeholder="Full Name" [formControl]="nameToAdd">
+    <mat-icon matSuffix>face</mat-icon>
     <mat-hint align="end">{{input1.value?.length || 0}}/30</mat-hint>
   </mat-form-field>
 
   <mat-form-field appearance="fill">
     <mat-label>E-mail</mat-label>
     <input matInput #input3 placeholder="mail@wp.pl" [formControl]="emailToAdd">
+    <mat-icon matSuffix>email</mat-icon>
   </mat-form-field>
 
   <mat-form-field hintLabel="Max 20 characters" appearance="fill">
     <mat-label>Username</mat-label>
     <input matInput #input2 maxlength="20" placeholder="My nick" [formControl]="userNameToAdd">
+    <mat-icon matSuffix>favorite</mat-icon>
     <mat-hint align="end">{{input2.value?.length || 0}}/20</mat-hint>
   </mat-form-field>
 
-  <mat-form-field hintLabel="9 characters" appearance="fill">
+  <mat-form-field hintLabel="9 numbers" appearance="fill">
     <mat-label>Phone</mat-label>
-    <input matInput #input4 maxlength="9" placeholder="123123123" [formControl]="phoneToAdd">
+    <input matInput type="number" #input4 maxlength="9" onKeyPress="if(this.value.length>=9) return false;" placeholder="123123123" [formControl]="phoneToAdd">
+    <mat-icon matSuffix>phone</mat-icon>
     <mat-hint align="end">{{input4.value?.length || 0}}/9</mat-hint>
   </mat-form-field>
 
   <mat-form-field appearance="fill">
     <mat-label>Web</mat-label>
     <input matInput #input5 placeholder="www.web.pl" [formControl]="webSiteToAdd">
+    <mat-icon matSuffix>http</mat-icon>
   </mat-form-field>
 
 </form><br>
