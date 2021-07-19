@@ -6,7 +6,6 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import {HomePageComponent} from './home-page/home-page.component';
 import { BoxesComponent } from './boxes/boxes.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HttpClientModule } from "@angular/common/http";
 import {PeopleService} from "./people.service";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -31,7 +30,6 @@ import { UserProfilePageComponent } from './user-profile-page/user-profile-page.
     FooterComponent,
     HomePageComponent,
     BoxesComponent,
-    PageNotFoundComponent,
     DialogComponent,
     DialogEditComponent,
     DialogNewUserComponent,
