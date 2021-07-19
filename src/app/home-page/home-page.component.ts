@@ -37,7 +37,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
   loadingUsersSubscription: Subscription;
   delUsersSubscription: Subscription;
   lp: number = 0;
-  tableSize:number;
   boxes = document.getElementsByName("box");
   //endregion
 
@@ -197,7 +196,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
     this.loadingUsersSubscription = this.peopleService.fetchPeople()
       .subscribe((res: any) => {
         this.dataSource = res;
-        this.tableSize = this.dataSource.length;
       }, error => {
         console.log(error);
       });
@@ -205,7 +203,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.takeApiFromDatabase();
-    console.log(this.boxes);
   }
 
   ngOnDestroy() {
