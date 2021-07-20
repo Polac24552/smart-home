@@ -115,7 +115,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   searchForName(){
     this.foundPeople = [];
 
-    if(!this.nameToSearch){this.restartTable();}
+    if(!this.nameToSearch.trim()){this.restartTable();}
 
     this.searchDataSource.find((element: any) => {
       if(
