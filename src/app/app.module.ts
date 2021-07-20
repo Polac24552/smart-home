@@ -23,6 +23,8 @@ import { DialogNewUserComponent } from './dialog-new-user/dialog-new-user.compon
 import {MatInputModule} from "@angular/material/input";
 import { UserProfilePageComponent } from './user-profile-page/user-profile-page.component';
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatSortModule} from '@angular/material/sort';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,9 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     NgMatSearchBarModule,
     MatFormFieldModule,
     MatTooltipModule,
+    MatPaginatorModule,
     MatIconModule,
+    MatSortModule,
     FormsModule,
     ReactiveFormsModule,
     MatInputModule

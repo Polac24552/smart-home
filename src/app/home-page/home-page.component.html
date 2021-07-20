@@ -4,7 +4,7 @@
 <!--  <li *ngFor="let person of peopleToPrint$ | async">{{person.name}}</li>-->
 <!--</ul>-->
   Search for user <mat-search-bar [(ngModel)]="nameToSearch" (onEnter)="searchForName()" (onClose)="restartTable()"></mat-search-bar>
-<table mat-table [dataSource]="dataSource">
+  <table mat-table [dataSource]="dataSource">
   <!-- Id Column -->
   <ng-container matColumnDef="lp">
     <th style="text-align:center;" mat-header-cell *matHeaderCellDef> Lp. </th>
@@ -64,5 +64,6 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
   <button mat-button class="add_button" (click)="addData()">Add New User</button>
 </div>

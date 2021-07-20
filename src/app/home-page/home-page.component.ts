@@ -1,11 +1,12 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {PeopleService} from "../people.service";
 import {MatDialog} from "@angular/material/dialog";
-import {MatTable} from "@angular/material/table";
+import {MatTable, MatTableDataSource} from "@angular/material/table";
 import {DialogEditComponent} from "../dialog-edit/dialog-edit.component";
 import {DialogNewUserComponent} from "../dialog-new-user/dialog-new-user.component";
 import {Subscription} from "rxjs";
 import {Router} from "@angular/router";
+import {MatPaginator} from '@angular/material/paginator';
 
 interface Users{
   _id: number;
@@ -25,10 +26,11 @@ interface Users{
 export class HomePageComponent implements OnInit, OnDestroy {
 
   //region Variables
-  dataSource: Users[];
+  dataSource: any;
   searchDataSource: Users[];
   displayedColumns: string[] = ['lp', 'name', 'username', 'email', 'info', 'del','edit','delAll'];
   @ViewChild(MatTable) table: MatTable<any>;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   nameToSearch: string;
   foundPeople: Array<any> = [];
   idsToDelete: Array<any> = [];
@@ -43,7 +45,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
   //region Functions
   showProfile(elementId: number) {
-    const person = this.dataSource.find((element: any) => {
+    const person = this.searchDataSource.find((element: any) => {
       return element._id === elementId;
     });
     if(!person){return;}
@@ -66,7 +68,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   editData(elementId: number){
-    const person = this.dataSource.find((element: any) => {
+    const person = this.searchDataSource.find((element: any) => {
       return element._id === elementId;
     });
     if(!person){return;}
@@ -88,7 +90,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
   removeData(elementId: number) {
     if(confirm("Are you sure to delete person with ID: "+elementId+" ?")) {
-      const isFindIndex = this.dataSource.findIndex((element: any) => {
+      const isFindIndex = this.searchDataSource.findIndex((element: any) => {
         return element._id === elementId;
       });
       if(isFindIndex < 0){return;}
@@ -106,7 +108,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     }
   }
 
-  async searchForName(){
+  searchForName(){
     this.foundPeople = [];
 
     if(!this.nameToSearch){this.restartTable();}
@@ -154,7 +156,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     if (this.idsToDelete.length > 0) {
       if (confirm("Are you sure to delete selected users ?")) {
         this.idsToDelete.forEach((elementId: any) => {
-            const isFindIndex = this.dataSource.findIndex((element: any) => {
+            const isFindIndex = this.searchDataSource.findIndex((element: any) => {
             return element._id === elementId;
           });
           if (isFindIndex > -1) {
@@ -199,8 +201,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
   takeApiFromDatabase(){
     this.loadingUsersSubscription = this.peopleService.fetchPeople()
       .subscribe((res: any) => {
-        this.dataSource = res;
+        this.dataSource = new MatTableDataSource<Users>(res);
         this.searchDataSource = res;
+        this.dataSource.paginator = this.paginator;
       }, error => {
         console.log(error);
       });
