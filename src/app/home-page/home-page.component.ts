@@ -1,11 +1,10 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {PeopleService} from "../people.service";
 import {MatDialog} from "@angular/material/dialog";
 import {MatTable} from "@angular/material/table";
 import {DialogEditComponent} from "../dialog-edit/dialog-edit.component";
 import {DialogNewUserComponent} from "../dialog-new-user/dialog-new-user.component";
 import {Subscription} from "rxjs";
-import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 
 interface Users{
@@ -39,7 +38,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   boxes = document.getElementsByName("box");
   //endregion
 
-  constructor(public peopleService: PeopleService, public dialog: MatDialog,private http: HttpClient, private router: Router) {}
+  constructor(public peopleService: PeopleService, public dialog: MatDialog, private router: Router) {}
 
   //region Functions
   showProfile(elementId: number) {

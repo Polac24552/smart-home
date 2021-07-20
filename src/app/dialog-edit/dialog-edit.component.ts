@@ -1,7 +1,6 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {Subscription} from "rxjs";
-import {HttpClient} from "@angular/common/http";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {PeopleService} from "../people.service";
 
@@ -35,7 +34,7 @@ export class DialogEditComponent implements OnInit, OnDestroy {
   editUserSubscription: Subscription;
   //endregion
 
-  constructor(public peopleService: PeopleService, @Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient,fb: FormBuilder) {
+  constructor(public peopleService: PeopleService, @Inject(MAT_DIALOG_DATA) public data: any, fb: FormBuilder) {
     this.userForm = fb.group({
       nameToAdd: this.nameToAdd,
       userNameToAdd: this.userNameToAdd,

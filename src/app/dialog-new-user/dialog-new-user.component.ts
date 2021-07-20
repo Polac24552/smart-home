@@ -1,6 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {HttpClient} from "@angular/common/http";
 import {Subscription} from "rxjs";
 import {PeopleService} from "../people.service";
 
@@ -23,7 +22,7 @@ export class DialogNewUserComponent implements OnInit, OnDestroy {
   webSiteToAdd = new FormControl('',[Validators.required, Validators.pattern(this.reg)]);
   //endregion
 
-  constructor(private http: HttpClient,fb: FormBuilder,public peopleService: PeopleService) {
+  constructor(fb: FormBuilder,public peopleService: PeopleService) {
     this.userForm = fb.group({
       nameToAdd: this.nameToAdd,
       userNameToAdd: this.userNameToAdd,
