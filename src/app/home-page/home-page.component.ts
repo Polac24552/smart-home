@@ -26,6 +26,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
   //region Variables
   dataSource: Users[];
+  searchDataSource: Users[];
   displayedColumns: string[] = ['lp', 'name', 'username', 'email', 'info', 'del','edit','delAll'];
   @ViewChild(MatTable) table: MatTable<any>;
   nameToSearch: string;
@@ -105,12 +106,17 @@ export class HomePageComponent implements OnInit, OnDestroy {
     }
   }
 
-  searchForName(){
+  async searchForName(){
     this.foundPeople = [];
+
     if(!this.nameToSearch){this.restartTable();}
 
-    this.dataSource.find((element: any) => {
-      if(element.name.toString().toLowerCase().includes(this.nameToSearch.toLowerCase().trim())){
+    this.searchDataSource.find((element: any) => {
+      if(
+        element.name.toString().toLowerCase().includes(this.nameToSearch.toLowerCase().trim()) ||
+        element.username.toString().toLowerCase().includes(this.nameToSearch.toLowerCase().trim()) ||
+        element.email.toString().toLowerCase().includes(this.nameToSearch.toLowerCase().trim())
+      ){
         this.foundPeople.push(element);
       }
     });
@@ -194,6 +200,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     this.loadingUsersSubscription = this.peopleService.fetchPeople()
       .subscribe((res: any) => {
         this.dataSource = res;
+        this.searchDataSource = res;
       }, error => {
         console.log(error);
       });
