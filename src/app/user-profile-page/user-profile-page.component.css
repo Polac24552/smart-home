@@ -11,7 +11,7 @@
 .user_teamplate{
   font-size: 18px;
   margin-top: 3%;
-  min-width: 80vh;
+  min-width: 90vh;
   min-height: 75vh;
   background-color: #DEDEC8;
   border-radius: 10px 10px 10px 10px;
@@ -28,6 +28,22 @@
   justify-content: space-between;
   align-items: center;
   border-bottom: 2px solid #C8D5DE;
+}
+.user_header .header_icon, .header_buttons{
+  min-width: 45vh;
+}
+.header_buttons{
+  display: flex;
+  justify-content: right;
+}
+.header_buttons .mat-button{
+  min-width: 7vh;
+  min-height: 5vh;
+  font-size: 3vh;
+  max-font-size: 5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .user_header button{
   background-color: #C8D5DE;
@@ -65,8 +81,17 @@
   box-shadow: 1px 1px 1px 1px dimgrey;
 }
 .user_header .header_icon .mat-icon {
-  font-size: 9vh;
+  min-font-size: 12vh;
+  font-size: 12vh;
 }
-.user_content mat-form-field{
-  min-width: 90vh;
+.user_content .mat-form-field{
+  margin-top: 1vh;
+  width: 90vh;
+  height: 10vh;
+}
+.user_content .mat-form-field .mat-label{
+  background-color: red;
+}
+mat-form-field .mat-icon{
+  min-font-size: 3vh;
 }

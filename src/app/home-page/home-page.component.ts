@@ -7,6 +7,7 @@ import {DialogNewUserComponent} from "../dialog-new-user/dialog-new-user.compone
 import {Subscription} from "rxjs";
 import {Router} from "@angular/router";
 import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from "@angular/material/sort";
 
 interface Users{
   _id: number;
@@ -31,6 +32,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['lp', 'name', 'username', 'email', 'info', 'del','edit','delAll'];
   @ViewChild(MatTable) table: MatTable<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
   nameToSearch: string;
   foundPeople: Array<any> = [];
   idsToDelete: Array<any> = [];
@@ -152,6 +154,21 @@ export class HomePageComponent implements OnInit, OnDestroy {
     }
   }
 
+  checkboxSelectAll(){
+      for (let i = 0; i < this.boxes.length; i++) {
+        (this.boxes[i] as HTMLInputElement).checked = true;
+        this.idsToDelete.push((this.boxes[i] as HTMLInputElement).value);
+        console.log(this.idsToDelete);
+    }
+  }
+
+  checkboxDeSelectAll(){
+    for (let i = 0; i < this.boxes.length; i++) {
+      (this.boxes[i] as HTMLInputElement).checked = false;
+    }
+    this.idsToDelete = [];
+  }
+
   deleteSelectedBoxes() {
     if (this.idsToDelete.length > 0) {
       if (confirm("Are you sure to delete selected users ?")) {
@@ -176,12 +193,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
         this.table.renderRows();
       }
       this.idsToDelete = [];
-    }else{
-      for (let i = 0; i < this.boxes.length; i++) {
-        (this.boxes[i] as HTMLInputElement).checked = true;
-        this.idsToDelete.push((this.boxes[i] as HTMLInputElement).value);
-        console.log(this.idsToDelete);
-      }
     }
   }
 
@@ -204,6 +215,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
         this.dataSource = new MatTableDataSource<Users>(res);
         this.searchDataSource = res;
         this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       }, error => {
         console.log(error);
       });

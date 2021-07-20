@@ -40,7 +40,7 @@ table {
 }
 td,th{
   padding-left: 30px;
-  height: 4vh;
+  height: 1vh;
   min-width: 2vh;
   text-align: center;
 }
@@ -72,6 +72,13 @@ input{
   border-bottom: 2px solid dimgrey;
   width: 30vh;
 }
-p{
+p {
   text-align: center;
+}
+.th_checkbox_div{
+  display: flex;
+  flex-direction: row;
+}
+.th_checkbox_div .mat-button{
+  background-color: #C8D5DE;
 }

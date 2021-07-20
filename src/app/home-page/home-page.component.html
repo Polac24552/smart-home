@@ -3,8 +3,8 @@
 <!--<ul>-->
 <!--  <li *ngFor="let person of peopleToPrint$ | async">{{person.name}}</li>-->
 <!--</ul>-->
-  Search for user <mat-search-bar [(ngModel)]="nameToSearch" (onEnter)="searchForName()" (onClose)="restartTable()"></mat-search-bar>
-  <table mat-table [dataSource]="dataSource">
+  Search for user <mat-search-bar [(ngModel)]="nameToSearch" (keyup)="searchForName()" (onClose)="restartTable()"></mat-search-bar>
+  <table mat-table [dataSource]="dataSource" matSort>
   <!-- Id Column -->
   <ng-container matColumnDef="lp">
     <th style="text-align:center;" mat-header-cell *matHeaderCellDef> Lp. </th>
@@ -54,8 +54,14 @@
   </ng-container>
 
   <!-- ButtonDelBox Column -->
-  <ng-container matColumnDef="delAll">
-    <th style="text-align:center;" mat-header-cell *matHeaderCellDef="let element"><button mat-button (click)="deleteSelectedBoxes()">DELETE SELECTED</button></th>
+  <ng-container class="checkbox_th" matColumnDef="delAll">
+    <th class="th_buttons" mat-header-cell *matHeaderCellDef="let element">
+      <div class="th_checkbox_div">
+      <button class="checkbox_buttons_actions" matTooltip="Delete selected" mat-button (click)="deleteSelectedBoxes()"><mat-icon>delete</mat-icon></button>
+      <button class="checkbox_buttons_actions" matTooltip="Select all" mat-button (click)="checkboxSelectAll()"><mat-icon>check_box</mat-icon></button>
+      <button class="checkbox_buttons_actions" matTooltip="Deselect all" mat-button (click)="checkboxDeSelectAll()"><mat-icon>check_box_outline_blank</mat-icon></button>
+      </div>
+    </th>
     <td class="action_button" mat-cell *matCellDef="let element">
       <input type="checkbox" value="{{element._id}}" name="box" (change)="checkboxCheck($event, element._id)">
     </td>
