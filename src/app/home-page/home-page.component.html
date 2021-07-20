@@ -33,7 +33,7 @@
   <ng-container matColumnDef="info">
     <th style="text-align:center;" mat-header-cell *matHeaderCellDef></th>
     <td class="action_button" mat-cell *matCellDef="let element">
-      <button mat-button (click)="showProfile(element._id)">PROFILE</button>
+      <button mat-button (click)="showProfile(element._id)" matTooltip="Show user" [matTooltipShowDelay]="showDelay.value"><mat-icon >person</mat-icon></button>
     </td>
   </ng-container>
 
@@ -41,7 +41,7 @@
   <ng-container matColumnDef="del">
     <th style="text-align:center;" mat-header-cell *matHeaderCellDef>Actions</th>
     <td class="action_button" mat-cell *matCellDef="let element">
-      <button mat-button (click)="removeData(element._id)">DELETE</button>
+      <button mat-button (click)="removeData(element._id)" matTooltip="Delete user" [matTooltipShowDelay]="showDelay.value"><mat-icon >delete_forever</mat-icon></button>
     </td>
   </ng-container>
 
@@ -49,7 +49,7 @@
   <ng-container matColumnDef="edit">
     <th style="text-align:center;" mat-header-cell *matHeaderCellDef></th>
     <td class="action_button" mat-cell *matCellDef="let element">
-      <button mat-button (click)="editData(element._id)">EDIT</button>
+      <button mat-button (click)="editData(element._id)" matTooltip="Edit user" [matTooltipShowDelay]="showDelay.value"><mat-icon >edit</mat-icon></button>
     </td>
   </ng-container>
 
@@ -57,9 +57,9 @@
   <ng-container class="checkbox_th" matColumnDef="delAll">
     <th class="th_buttons" mat-header-cell *matHeaderCellDef="let element">
       <div class="th_checkbox_div">
-      <button class="checkbox_buttons_actions" matTooltip="Delete selected" mat-button (click)="deleteSelectedBoxes()"><mat-icon>delete</mat-icon></button>
-      <button class="checkbox_buttons_actions" matTooltip="Select all" mat-button (click)="checkboxSelectAll()"><mat-icon>check_box</mat-icon></button>
-      <button class="checkbox_buttons_actions" matTooltip="Deselect all" mat-button (click)="checkboxDeSelectAll()"><mat-icon>check_box_outline_blank</mat-icon></button>
+      <button class="checkbox_buttons_actions" matTooltip="Delete selected" [matTooltipShowDelay]="showDelay.value" mat-button (click)="deleteSelectedBoxes()"><mat-icon>delete</mat-icon></button>
+      <button class="checkbox_buttons_actions" matTooltip="Select all" [matTooltipShowDelay]="showDelay.value" mat-button (click)="checkboxSelectAll()"><mat-icon>check_box</mat-icon></button>
+      <button class="checkbox_buttons_actions" matTooltip="Deselect all" [matTooltipShowDelay]="showDelay.value" mat-button (click)="checkboxDeSelectAll()"><mat-icon>check_box_outline_blank</mat-icon></button>
       </div>
     </th>
     <td class="action_button" mat-cell *matCellDef="let element">
@@ -71,5 +71,5 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
   <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
-  <button mat-button class="add_button" (click)="addData()">Add New User</button>
+  <button mat-button class="add_button" (click)="addData()" [matTooltipShowDelay]="showDelay.value" matTooltip="Add new user"><mat-icon>person_add</mat-icon></button>
 </div>

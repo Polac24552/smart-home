@@ -8,6 +8,7 @@ import {Subscription} from "rxjs";
 import {Router} from "@angular/router";
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from "@angular/material/sort";
+import {FormControl} from "@angular/forms";
 
 interface Users{
   _id: number;
@@ -41,6 +42,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   delUsersSubscription: Subscription;
   lp: number = 0;
   boxes = document.getElementsByName("box");
+  showDelay = new FormControl(600);
   //endregion
 
   constructor(public peopleService: PeopleService, public dialog: MatDialog, private router: Router) {}
