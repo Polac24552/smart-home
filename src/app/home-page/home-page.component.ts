@@ -1,223 +1,58 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {PeopleService} from "../people.service";
+import {HomeService} from "../home.service";
 import {MatDialog} from "@angular/material/dialog";
-import {MatTable, MatTableDataSource} from "@angular/material/table";
-import {DialogEditComponent} from "../dialog-edit/dialog-edit.component";
-import {DialogNewUserComponent} from "../dialog-new-user/dialog-new-user.component";
+import {MatTableDataSource} from "@angular/material/table";
 import {Subscription} from "rxjs";
 import {Router} from "@angular/router";
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from "@angular/material/sort";
-import {FormControl} from "@angular/forms";
 
-interface Users{
+interface Rooms{
   _id: number;
   name: string;
-  username: string;
-  email: string;
-  phone: number;
-  website: string;
+  state: string;
+  temp: number;
+  lastUpdate: string;
+}
+
+export interface Room {
+  color: string;
+  cols: number;
+  rows: number;
+  text: string;
+  status: boolean;
 }
 
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.css']
+  styleUrls: ['./home-page.component.less']
 })
 
 export class HomePageComponent implements OnInit, OnDestroy {
 
-  //region Variables
-  dataSource: any;
-  searchDataSource: Users[];
-  displayedColumns: string[] = ['lp', 'name', 'username', 'email', 'info', 'del','edit','delAll'];
-  @ViewChild(MatTable) table: MatTable<any>;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-  nameToSearch: string;
-  foundPeople: Array<any> = [];
-  idsToDelete: Array<any> = [];
-  isChecked:boolean;
-  loadingUsersSubscription: Subscription;
-  delUsersSubscription: Subscription;
+  Rooms: Room[] = [
+    {text: 'Living Room', cols: 2, rows: 2, color: 'lightblue', status: false},
+    {text: 'Corridor', cols: 1, rows: 4, color: 'lightgreen', status: false},
+    {text: 'Kitchen', cols: 1, rows: 2, color: 'lightpink', status: false},
+    {text: 'Bedroom', cols: 2, rows: 2, color: '#DDBDF1', status: false},
+    {text: 'Bathroom', cols: 1, rows: 1, color: '#DDBDD2', status: false},
+  ];
+
+  connectionStatus: boolean = false;
+  lastTimeSync: string;
+  roomData: any;
   lp: number = 0;
-  boxes = document.getElementsByName("box");
-  showDelay = new FormControl(600);
-  //endregion
 
-  constructor(public peopleService: PeopleService, public dialog: MatDialog, private router: Router) {}
+  loadingRoomsSubscription: Subscription;
 
-  //region Functions
-  showProfile(elementId: number) {
-    const person = this.searchDataSource.find((element: any) => {
-      return element._id === elementId;
-    });
-    if(!person){return;}
-
-    this.router.navigate(['/user-profile', elementId]).then(r => console.log('User found: ',r));
-
-    //let dialogRef:any;
-
-    //if(this.dialog.openDialogs.length === 0) {
-    //   dialogRef = this.dialog.open(DialogComponent, {
-    //    data: {
-    //      people: person
-    //    }
-    //  });
-
-    //  dialogRef.afterClosed().subscribe((result:any) => {
-    //    console.log(`Dialog result: ${result}`);
-    //  });
-    //}
-  }
-
-  editData(elementId: number){
-    const person = this.searchDataSource.find((element: any) => {
-      return element._id === elementId;
-    });
-    if(!person){return;}
-    let dialogRef:any;
-
-    if(this.dialog.openDialogs.length === 0) {
-      dialogRef = this.dialog.open(DialogEditComponent, {
-        data: {
-          peopleToEdit: person
-        }
-      });
-
-      dialogRef.afterClosed().subscribe((result:any) => {
-        this.takeApiFromDatabase();
-        this.table.renderRows();
-      });
-    }
-  }
-
-  removeData(elementId: number) {
-    if(confirm("Are you sure to delete person with ID: "+elementId+" ?")) {
-      const isFindIndex = this.searchDataSource.findIndex((element: any) => {
-        return element._id === elementId;
-      });
-      if(isFindIndex < 0){return;}
-
-      this.delUsersSubscription = this.peopleService.delUser(elementId)
-        .subscribe(
-        data  => {
-          console.log("DELETE Request: ", data);
-          this.takeApiFromDatabase();
-          this.table.renderRows();
-        },
-        error  => {
-          console.log("Error", error);
-        });
-    }
-  }
-
-  searchForName(){
-    this.foundPeople = [];
-
-    if(!this.nameToSearch.trim()){this.restartTable();}
-
-    this.searchDataSource.find((element: any) => {
-      if(
-        element.name.toString().toLowerCase().includes(this.nameToSearch.toLowerCase().trim()) ||
-        element.username.toString().toLowerCase().includes(this.nameToSearch.toLowerCase().trim()) ||
-        element.email.toString().toLowerCase().includes(this.nameToSearch.toLowerCase().trim())
-      ){
-        this.foundPeople.push(element);
-      }
-    });
-
-    this.dataSource = this.foundPeople;
-    this.table.renderRows();
-  }
-
-  restartTable(){
-    this.takeApiFromDatabase();
-    this.table.renderRows();
-  }
-
-  checkboxCheck(event:any, elementId:number){
-    if(event.target.checked){
-      const isFindIndex = this.idsToDelete.findIndex((element: number) => {
-        return element === elementId;
-      });
-      if(elementId != isFindIndex) {
-        this.idsToDelete.push(elementId)
-        console.log(this.idsToDelete);
-      }
-    }else{
-      const isFindIndex = this.idsToDelete.findIndex((element: number) => {
-        return element === elementId;
-      });
-      if(isFindIndex > -1){
-      this.idsToDelete.splice(isFindIndex, 1);
-      console.log(this.idsToDelete);
-      }
-    }
-  }
-
-  checkboxSelectAll(){
-      for (let i = 0; i < this.boxes.length; i++) {
-        (this.boxes[i] as HTMLInputElement).checked = true;
-        this.idsToDelete.push((this.boxes[i] as HTMLInputElement).value);
-        console.log(this.idsToDelete);
-    }
-  }
-
-  checkboxDeSelectAll(){
-    for (let i = 0; i < this.boxes.length; i++) {
-      (this.boxes[i] as HTMLInputElement).checked = false;
-    }
-    this.idsToDelete = [];
-  }
-
-  deleteSelectedBoxes() {
-    if (this.idsToDelete.length > 0) {
-      if (confirm("Are you sure to delete selected users ?")) {
-        this.idsToDelete.forEach((elementId: any) => {
-            const isFindIndex = this.searchDataSource.findIndex((element: any) => {
-            return element._id === elementId;
-          });
-          if (isFindIndex > -1) {
-            this.delUsersSubscription = this.peopleService.delUser(elementId)
-              .subscribe(
-                data  => {
-                  console.log("DELETE Request: ", data);
-                  this.takeApiFromDatabase();
-                  this.table.renderRows();
-                },
-                error  => {
-                  console.log("Error", error);
-                });
-          }
-        });
-        this.takeApiFromDatabase();
-        this.table.renderRows();
-      }
-      this.idsToDelete = [];
-    }
-  }
-
-  addData(){
-    let dialogRef:any;
-
-    if(this.dialog.openDialogs.length === 0) {
-      dialogRef = this.dialog.open(DialogNewUserComponent);
-
-      dialogRef.afterClosed().subscribe((result:any) => {
-        this.takeApiFromDatabase();
-        this.table.renderRows();
-      });
-    }
-  }
+  constructor(public peopleService: HomeService, public dialog: MatDialog, private router: Router) {}
 
   takeApiFromDatabase(){
-    this.loadingUsersSubscription = this.peopleService.fetchPeople()
+    this.loadingRoomsSubscription = this.peopleService.fetchRooms()
+
       .subscribe((res: any) => {
-        this.dataSource = new MatTableDataSource<Users>(res);
-        this.searchDataSource = res;
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        console.log(res);
+        this.connectionStatus = true;
+        this.roomData = <Rooms>res;
       }, error => {
         console.log(error);
       });
@@ -228,8 +63,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.loadingUsersSubscription?.unsubscribe();
-    this.delUsersSubscription?.unsubscribe()
+    this.loadingRoomsSubscription?.unsubscribe();
   }
-  //endregion
 }

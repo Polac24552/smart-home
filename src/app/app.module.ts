@@ -5,9 +5,8 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import {HomePageComponent} from './home-page/home-page.component';
-import { BoxesComponent } from './boxes/boxes.component';
 import { HttpClientModule } from "@angular/common/http";
-import {PeopleService} from "./people.service";
+import {HomeService} from "./home.service";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSliderModule } from '@angular/material/slider';
 import {MatTableModule, MatTableDataSource} from "@angular/material/table";
@@ -18,13 +17,11 @@ import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from "@angular/mater
 import {MatIconModule} from "@angular/material/icon";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {DialogComponent} from './dialog/dialog.component';
-import { DialogEditComponent } from './dialog-edit/dialog-edit.component';
-import { DialogNewUserComponent } from './dialog-new-user/dialog-new-user.component';
 import {MatInputModule} from "@angular/material/input";
-import { UserProfilePageComponent } from './user-profile-page/user-profile-page.component';
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatGridListModule} from "@angular/material/grid-list";
 
 @NgModule({
   declarations: [
@@ -32,11 +29,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     HeaderComponent,
     FooterComponent,
     HomePageComponent,
-    BoxesComponent,
     DialogComponent,
-    DialogEditComponent,
-    DialogNewUserComponent,
-    UserProfilePageComponent
   ],
   imports: [
     BrowserModule,
@@ -55,13 +48,13 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatSortModule,
     FormsModule,
     ReactiveFormsModule,
-    MatInputModule
+    MatInputModule,
+    MatGridListModule
   ],
   providers: [
-    PeopleService,
+    HomeService,
     MatTableDataSource,
     DialogComponent,
-    DialogEditComponent,
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {floatLabel: 'always'}}

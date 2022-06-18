@@ -1,0 +1,128 @@
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+input[type=checkbox]
+{
+  /* Double-sized Checkboxes */
+  -ms-transform: scale(2); /* IE */
+  -moz-transform: scale(2); /* FF */
+  -webkit-transform: scale(2); /* Safari and Chrome */
+  -o-transform: scale(2); /* Opera */
+  transform: scale(2);
+  padding: 2px;
+}
+
+.home_page{
+  font-family: Ubuntu;
+  min-width: 100vh;
+  min-height: 85vh;
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: rgba(222, 222, 222, 0.22);
+
+  p {
+    margin-top: 10vh;
+    font-size: 50px;
+    margin-bottom: 2%;
+
+    &.status {
+      padding: 5px 10px;
+      min-width: 83vh;
+      min-height: 30px;
+      max-height: 40px;
+      background-color: rgba(227, 227, 227, 0.32);
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      justify-items: center;
+      flex-direction: row;
+      font-size: 12px;
+      border-radius: 5px;
+    }
+    &.online {
+      font-size: 16px;
+
+      span {
+        color: lawngreen;
+        font-weight: bold;
+      }
+    }
+    &.offline {
+      font-size: 16px;
+
+      span {
+        color: red;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .legend {
+    padding: 5px;
+    min-width: 84vh;
+    min-height: 30px;
+    max-height: 40px;
+    background-color: rgba(227, 227, 227, 0.32);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    justify-items: center;
+    flex-direction: row;
+    font-size: 12px;
+    border-radius: 5px;
+
+    span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      :nth-child(1) {
+        margin-bottom: 5px;
+      }
+    }
+  }
+
+  mat-icon {
+    &.lightIcon {
+      width: 40px;
+      height: 40px;
+      font-size: 40px;
+    }
+    &.status-online {
+      color: yellow;
+    }
+    &.status-offline {
+      color: black;
+    }
+  }
+
+  mat-grid-list {
+    margin-top: 1vh;
+    min-width: 85vh;
+    min-height: 50vh;
+
+    mat-grid-tile {
+      font-size: 17px;
+      z-index: 2;
+      box-shadow: #838C91 0px 0px 7px 0px;
+    }
+  }
+}
+
+
+
+
+
+
