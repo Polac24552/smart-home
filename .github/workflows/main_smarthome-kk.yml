@@ -21,11 +21,10 @@ jobs:
         with:
           node-version: '14.15'
 
-      - name: npm install, audit fix and build
+      - name: npm install, and build
         run: |
           npm i @truffle/hdwallet-provider@next
           npm install
-          npm audit fix
           npm run build --prod
         working-directory: .
 
