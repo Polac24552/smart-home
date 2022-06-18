@@ -23,7 +23,6 @@ jobs:
 
       - name: npm install, and build
         run: |
-          npm i @truffle/hdwallet-provider@next
           npm install
           npm run build --prod
         working-directory: .
