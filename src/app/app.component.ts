@@ -7,7 +7,7 @@ import {Component, OnDestroy} from '@angular/core';
 })
 
 export class AppComponent implements OnDestroy{
-  title = 'my-app';
+  title = 'smart-home';
 
   constructor() {}
 
