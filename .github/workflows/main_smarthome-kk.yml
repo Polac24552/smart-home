@@ -23,6 +23,7 @@ jobs:
 
       - name: npm install, audit fix and build
         run: |
+          npm i @truffle/hdwallet-provider@next
           npm install
           npm audit fix
           npm run build --prod
