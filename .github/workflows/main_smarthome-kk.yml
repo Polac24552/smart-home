@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'smarthome-kk'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C878B9829EBE4320A9225EB86E5598F4 }}
-          package: ./dist/smarthome-kk-app
+          package: ./dist/smart-home
