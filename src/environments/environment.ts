@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  baseUrl: "https://smarthomedbkk.database.windows.net/api",
+  baseUrl: "http://localhost:4200",
+  getRoomDataUrl: "https://shkk.azurewebsites.net/api/GetRoomDataHttpTrigger?code=Bovncc95HVJELVf-kiDSdcYy9-RpSvkALlY8msMwG6TvAzFukTx2tw==",
+  postRoomDataUrl: "https://shkk.azurewebsites.net/api/SendRoomDataHttpTrigger",
 };
 
 /*

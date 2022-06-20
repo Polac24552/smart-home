@@ -1,12 +1,16 @@
 <div class="home_page">
   <p>Your Smart Home Lights</p>
   <p [ngClass]="{'status': true, 'online': connectionStatus, 'offline': !connectionStatus}" class="status">
-    Connection status:&nbsp;<span>{{connectionStatus ? "Online" : "Offline"}}</span>
+    RPI connection status:&nbsp;<span>{{connectionStatus ? "Online" : "Offline - Loading last synced data"}}</span>
   </p>
 
   <div class="legend">
-    <span><mat-icon class="status-online">lightbulb</mat-icon> - światło włączone &nbsp;</span>
-    <span><mat-icon class="status-offline">lightbulb</mat-icon> - światło wyłączone &nbsp;</span>
+    <span><mat-icon class="status-online">lightbulb</mat-icon> - light ON &nbsp;</span>
+    <span><mat-icon class="status-offline">lightbulb</mat-icon> - light OFF &nbsp;</span>
+    <span><mat-icon>refresh</mat-icon> - data refreshing every {{refreshTime / 1000}} sec &nbsp;</span>
+    <mat-checkbox [(ngModel)]="isSimulation">
+        Enable RPI simulation
+    </mat-checkbox>
   </div>
   <mat-grid-list cols="4" rowHeight="100px">
     <mat-grid-tile
@@ -14,7 +18,7 @@
       [colspan]="room.cols"
       [rowspan]="room.rows"
       [style.background]="room.color">
-      {{room.text}}<mat-icon [ngClass]="{'lightIcon': true, 'status-online': room.status, 'status-offline': !room.status}">lightbulb</mat-icon>
+      {{room.text}}<mat-icon [ngClass]="{'lightIcon': true, 'status-online': room.status === 1, 'status-offline': room.status === 0}">lightbulb</mat-icon>
     </mat-grid-tile>
   </mat-grid-list>
 </div>

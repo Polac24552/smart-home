@@ -42,7 +42,7 @@ input[type=checkbox]
       min-width: 83vh;
       min-height: 30px;
       max-height: 40px;
-      background-color: rgba(227, 227, 227, 0.32);
+      background-color: rgba(227, 227, 227, 0.51);
       display: flex;
       align-items: center;
       justify-content: flex-start;
@@ -70,11 +70,12 @@ input[type=checkbox]
   }
 
   .legend {
+    position: relative;
     padding: 5px;
     min-width: 84vh;
     min-height: 30px;
     max-height: 40px;
-    background-color: rgba(227, 227, 227, 0.32);
+    background-color: rgba(227, 227, 227, 0.51);
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -91,6 +92,11 @@ input[type=checkbox]
       :nth-child(1) {
         margin-bottom: 5px;
       }
+    }
+
+    mat-checkbox  {
+      position: absolute;
+      right: 10px;
     }
   }
 

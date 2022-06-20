@@ -22,6 +22,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatGridListModule} from "@angular/material/grid-list";
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import {MatGridListModule} from "@angular/material/grid-list";
     FormsModule,
     ReactiveFormsModule,
     MatInputModule,
-    MatGridListModule
+    MatGridListModule,
+    MatCheckboxModule
   ],
   providers: [
     HomeService,
